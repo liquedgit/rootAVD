@@ -1080,8 +1080,8 @@ CheckAvailableMagisks() {
 		CUTOFF=100
 
 		if [ -e $UFSH ]; then
-			MAGISK_LOCL_VER=$($BB grep $UFSH -e "MAGISK_VER" -w | sed 's/^.*=//')
-			MAGISK_LOCL_VER_CODE=$($BB grep $UFSH -e "MAGISK_VER_CODE" -w | sed 's/^.*=//')
+			MAGISK_LOCL_VER=$($BB grep $UFSH -e "MAGISK_VER" -w | sed -e 's/^.*=//' -e "s/['\"]//g")
+			MAGISK_LOCL_VER_CODE=$($BB grep $UFSH -e "MAGISK_VER_CODE" -w | sed -e 's/^.*=//' -e "s/['\"]//g")
 			MAGISK_LOCL_VER=$(GetPrettyVer $MAGISK_LOCL_VER $MAGISK_LOCL_VER_CODE)
 		else
 			MAGISK_LOCL_VER=""
