@@ -972,7 +972,42 @@ FetchMagiskDLData() {
 		DLL=$SRCURL$DLL
 	fi
 
+	AddMagiskMenuEntry $DLL $VER $CHANNEL
+	rm -rf *.json > /dev/null 2>&1
+}
+
+FetchMagiskGHRelease() {
+	# magisk-files feeds can lag behind, so ask GitHub for the latest release
+	local CHANNEL="release"
+	local JSON="latest.json"
+	local TAG=""
+	local VER=""
+	local DLL=""
+
+	rm -rf $JSON > /dev/null 2>&1
+	$BB wget -q --no-check-certificate -O $JSON "https://api.github.com/repos/topjohnwu/Magisk/releases/latest"
+	if [ -e $JSON ]; then
+		TAG=$(json_value "tag_name" 1 < $JSON)
+	fi
+
+	if [[ "$TAG" == v* ]]; then
+		VER=${TAG#v}
+		DLL="https://github.com/topjohnwu/Magisk/releases/download/$TAG/Magisk-$TAG.apk"
+		AddMagiskMenuEntry $DLL $VER $CHANNEL
+	fi
+	rm -rf $JSON > /dev/null 2>&1
+}
+
+AddMagiskMenuEntry() {
+	local DLL="$1"
+	local VER="$2"
+	local CHANNEL="$3"
+	local i=1
+
 	if [ -e $MAGISK_DL_LINKS ]; then
+		if $BB grep -qxF "$DLL" $MAGISK_DL_LINKS; then
+			return
+		fi
 		echo $DLL >> $MAGISK_DL_LINKS
 		echo $VER >> $MAGISK_VERSIONS
 		echo $CHANNEL >> $MAGISK_CHANNEL
@@ -997,7 +1032,6 @@ FetchMagiskDLData() {
 			echo "[$i] $CHANNEL $VER" >> $MAGISK_MENU
 		fi
 	fi
-	rm -rf *.json > /dev/null 2>&1
 }
 
 FetchMagiskRLCommits() {
@@ -1060,6 +1094,7 @@ CheckAvailableMagisks() {
 
 			rm *.txt > /dev/null 2>&1
 
+			FetchMagiskGHRelease
 			FetchMagiskDLData $RAWGITHUB$TJWREPOURL"master/" "stable"
 			FetchMagiskDLData $RAWGITHUB$TJWREPOURL"master/" "canary"
 			#FetchMagiskDLData $RAWGITHUB$VVB2060REPOURL"alpha/" "alpha"
@@ -1092,6 +1127,7 @@ CheckAvailableMagisks() {
 						if [[ "$choice" == "s" ]]; then
 							echo "[!] Fetching all available Magisk Versions..."
 							rm *.txt > /dev/null 2>&1
+							FetchMagiskGHRelease
 							FetchMagiskRLCommits $GITHUB $TJWCOMMITSURL $TJWBLOBURL "stable" $TJWREPOURL
 							FetchMagiskRLCommits $GITHUB $TJWCOMMITSURL $TJWBLOBURL "canary" $TJWREPOURL
 							#FetchMagiskRLCommits $GITHUB $VVB2060COMMITSURL $VVB2060BLOBURL "alpha" $VVB2060REPOURL
@@ -1719,6 +1755,8 @@ patching_ramdisk(){
 	echo "KEEPVERITY=$KEEPVERITY" > config
 	echo "KEEPFORCEENCRYPT=$KEEPFORCEENCRYPT" >> config
 	echo "RECOVERYMODE=$RECOVERYMODE" >> config
+	# Magisk 27+ boot_patch.sh writes this too, an AVD ramdisk.img is never a vendor_boot
+	echo "VENDORBOOT=false" >> config
 
 	if [ -n "$PREINITDEVICE" ]; then
 		echo "[*] Pre-init storage partition: $PREINITDEVICE"
