@@ -1,8 +1,16 @@
-# This Repo has moved to GitLab since 24th of Oct 2023
-# [rootAVD](https://gitlab.com/newbit/rootAVD)
-### [newbit @ xda-developers](https://forum.xda-developers.com/m/newbit.1350876)
+# [rootAVD](https://github.com/liquedgit/rootAVD) - maintained fork
+### Original by [newbit @ xda-developers](https://forum.xda-developers.com/m/newbit.1350876) - [gitlab.com/newbit/rootAVD](https://gitlab.com/newbit/rootAVD)
+
+#### About this fork
+* The original rootAVD has not been updated since Oct 2024. This fork keeps it working with current Magisk releases.
+* It contains all upstream GitLab commits up to `613caa4` (Oct 2024), plus:
+	* bundled Magisk updated to **v31.1**
+	* the Magisk menu also offers the latest [GitHub release](https://github.com/topjohnwu/Magisk/releases), because the `magisk-files` stable/canary feeds lag behind
+	* the self-update downloads from this fork
+* All credit for rootAVD goes to NewBit. The license stays [GPL-3.0](LICENSE).
+
 A Script to...
-* root your Android Studio Virtual Device (AVD), with Magisk (Stable, Canary or Alpha)
+* root your Android Studio Virtual Device (AVD), with Magisk (Release, Stable or Canary)
 * patch its fstab
 * download and install the USB HOST Permissions Module for Magisk
 * install custom build Kernel and its Modules
@@ -12,8 +20,8 @@ A Script to...
 
 ## Install Magisk
 ### Download rootAVD via
-* [Click](https://gitlab.com/newbit/rootAVD/-/archive/master/rootAVD-master.zip)
-* `git clone https://gitlab.com/newbit/rootAVD.git`
+* [Click](https://github.com/liquedgit/rootAVD/archive/refs/heads/master.zip)
+* `git clone https://github.com/liquedgit/rootAVD.git`
 
 ### Preconditions
 * the AVD is running
@@ -233,7 +241,8 @@ rootAVD.bat system-images\android-25\google_apis_playstore\armeabi-v7a\ramdisk.i
 
 ### Notes
 * 64 Bit Only Systems needs Magisk 23.x
-* In the Menu, you can choose between the newest Magisk, Canary and Stable, Version.
+* In the Menu, you can choose between the latest GitHub Release, Stable and Canary Version of Magisk.
+	* The Release entry is read from the GitHub API. If that call fails (offline or rate limited), only Stable and Canary are shown.
 * With the new Option `s`, you can see and download any other Versions of Magisk
 * Once choosen, the script will make that Version to your local one.
 * Prebuilt Kernel and Modules will be pulled from [AOSP](https://android.googlesource.com/kernel/prebuilts)
@@ -242,6 +251,9 @@ rootAVD.bat system-images\android-25\google_apis_playstore\armeabi-v7a\ramdisk.i
 * Magisk Versions >= 26.x can only be proper installed with the FAKEBOOTIMG argument
 	* due to the [New sepolicy.rule Implementation](https://github.com/topjohnwu/Magisk/releases/tag/v26.1)
 * Android 14 needs Magisk Version >= 26.x to be rooted
+* Magisk Versions >= 27.x ship a single `magisk` binary plus `init-ld` and no `stub.apk`; the AVD path handles this layout
+* After the first cold boot, `su` is not available yet (logcat: `Magisk environment incomplete, abort`)
+	* open the Magisk App, accept **Requires Additional Setup**, let it reboot the AVD, then `su` works
 
 ### Notes on Magisk Versions
 * Replace the Magisk.zip with the Flavour/Version of your choice
@@ -300,6 +312,7 @@ rootAVD.bat system-images\android-25\google_apis_playstore\armeabi-v7a\ramdisk.i
 	* and remove all user higher than 0 i.e. `adb shell pm remove-user 13` or `adb shell pm remove-user 10`
 
 ### BlueStacks 4 Notes on MacOs
+* The BlueStacks path still expects the old `magisk32`/`magisk64` binaries and is **not supported** with Magisk >= 27.x in this fork
 * Modules are working
 * Zygisk doesn't work
 * The Home Screen Apk closes as soon as Magisk APP is installed
@@ -383,6 +396,13 @@ rootAVD.bat system-images\android-25\google_apis_playstore\armeabi-v7a\ramdisk.i
 </details>
 
 ### Change Logs
+#### [Nov 2026] - liquedgit fork
+* [General] - Synced with upstream GitLab master (`613caa4`)
+* [General] - Updated to Magisk v31.1
+* [rootAVD.sh] - Added the latest Magisk GitHub release to the version menu
+* [rootAVD.sh] - Added VENDORBOOT=false to the ramdisk config, as Magisk 27+ does
+* [rootAVD.sh] - Self-update now downloads from this fork
+
 #### [Oct 2024]
 * [rootAVD.sh] - Added Support for LD_PRELOAD of init
 * [General] - Updated to Magisk v26.4
