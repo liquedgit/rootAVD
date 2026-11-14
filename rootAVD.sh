@@ -1305,9 +1305,9 @@ ExtractMagiskViaPM() {
 DownloadUptoDateSript() {
 	echo "[*] Trying to Download the Up-To-Date Script Version"
 
-	local DLL_URL="https://github.com/newbit1/rootAVD/raw/master/"
+	local DLL_URL="https://github.com/liquedgit/rootAVD/raw/master/"
 	local DLL_SCRIPT="rootAVD.sh"
-	local DLL_ROOTAVD_ZIP="https://github.com/newbit1/rootAVD/archive/refs/heads/master.zip"
+	local DLL_ROOTAVD_ZIP="https://github.com/liquedgit/rootAVD/archive/refs/heads/master.zip"
 	local PKG_PATH=""
 
 	ExtractMagiskViaPM
