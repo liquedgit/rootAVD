@@ -252,6 +252,8 @@ rootAVD.bat system-images\android-25\google_apis_playstore\armeabi-v7a\ramdisk.i
 	* due to the [New sepolicy.rule Implementation](https://github.com/topjohnwu/Magisk/releases/tag/v26.1)
 * Android 14 needs Magisk Version >= 26.x to be rooted
 * Magisk Versions >= 27.x ship a single `magisk` binary plus `init-ld` and no `stub.apk`; the AVD path handles this layout
+* After the first cold boot, `su` is not available yet (logcat: `Magisk environment incomplete, abort`)
+	* open the Magisk App, accept **Requires Additional Setup**, let it reboot the AVD, then `su` works
 
 ### Notes on Magisk Versions
 * Replace the Magisk.zip with the Flavour/Version of your choice

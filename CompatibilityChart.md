@@ -4,7 +4,7 @@
 |---|---|---|---|
 | 17 | 37 | arm64-v8a | untested |
 | 17 | 37 | x86_64 | untested |
-| 16 | 36 | arm64-v8a | untested |
+| 16 | 36 | arm64-v8a | ✅ rooted - Pkg.Revision 7, BE2A.250530.026.D1, kernel 6.6.66, macOS Apple Silicon (Nov 2026) |
 | 16 | 36 | x86_64 | untested |
 | 15 | 35 | arm64-v8a | untested |
 | 15 | 35 | x86_64 | untested |
