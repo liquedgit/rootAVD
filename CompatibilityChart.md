@@ -1,3 +1,16 @@
+### Magisk v31.1 (liquedgit fork) - Google Play Store System Images
+
+| Android | API Level | CPU/ABI | Status |
+|---|---|---|---|
+| 17 | 37 | arm64-v8a | untested |
+| 17 | 37 | x86_64 | untested |
+| 16 | 36 | arm64-v8a | untested |
+| 16 | 36 | x86_64 | untested |
+| 15 | 35 | arm64-v8a | untested |
+| 15 | 35 | x86_64 | untested |
+
+Rows change from "untested" only after a successful root (`adb shell su -c id` returns `uid=0`) with that exact image.
+
 ### Compatibility Chart with Google <b><img src="https://user-images.githubusercontent.com/37043777/140272882-10a9b396-550c-40c7-b809-2ca05527f7a5.png" width="15"> PlayStore</b> System Images<b><br>
 </b>
 <table>
